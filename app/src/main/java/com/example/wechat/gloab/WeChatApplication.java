@@ -1,4 +1,4 @@
-package com.example.wechat;
+package com.example.wechat.gloab;
 
 import android.app.ActivityManager;
 import android.app.Application;

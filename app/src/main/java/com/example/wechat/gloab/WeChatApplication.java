@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.util.Log;
 
 import com.hyphenate.chat.EMClient;
@@ -23,11 +24,13 @@ public class WeChatApplication extends Application {
 
     public static Context context;
     public static final String TAG = "WeChatApplication";
+    public static Handler mHandler;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
+        mHandler = new Handler();
 
         //初始化环信
         initHuanXin();

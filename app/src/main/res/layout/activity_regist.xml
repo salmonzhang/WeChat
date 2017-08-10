@@ -6,7 +6,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wechat.view.RegistActivity">
+    tools:context="com.example.wechat.view.RegistActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:layout_gravity="center"
@@ -23,6 +24,8 @@
         <EditText
             android:id="@+id/et_regist_username"
             android:hint="用户名"
+            android:inputType="text"
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -30,12 +33,14 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til_regist_pwd"
+        app:passwordToggleEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/et_regist_pwd"
             android:hint="密码"
+            android:imeOptions="actionDone"
             android:inputType="numberPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

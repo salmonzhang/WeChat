@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     android:fitsSystemWindows="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@mipmap/login_bk"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,6 +25,8 @@
         <EditText
             android:id="@+id/et_login_username"
             android:hint="用户名"
+            android:inputType="text"
+            android:imeOptions="actionNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -31,6 +34,7 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/til_login_pwd"
+        app:passwordToggleEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -38,6 +42,7 @@
             android:id="@+id/et_login_pwd"
             android:inputType="numberPassword"
             android:hint="密码"
+            android:imeOptions="actionDone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 

@@ -21,7 +21,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
     private SplashPresenter mSplashPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         ButterKnife.bind(this);

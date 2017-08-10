@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.util.Log;
 
+import com.avos.avoscloud.AVOSCloud;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
@@ -34,6 +35,15 @@ public class WeChatApplication extends Application {
 
         //初始化环信
         initHuanXin();
+        //初始化LeanCloud
+        initLeanCloud();
+    }
+
+    private void initLeanCloud() {
+        // 初始化参数依次为 this, AppId, AppKey
+        AVOSCloud.initialize(this,"VSBHMjLlpVrm0Ht2xSqBvg7L-gzGzoHsz","coR7oIzfmqRkfBI4shwkT6Vt");
+        // 放在 SDK 初始化语句 AVOSCloud.initialize() 后面，只需要调用一次即可
+        AVOSCloud.setDebugLogEnabled(true);
     }
 
     private void initHuanXin() {

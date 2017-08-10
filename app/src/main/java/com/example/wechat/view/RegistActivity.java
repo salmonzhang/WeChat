@@ -52,6 +52,7 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_regist:
+
                 break;
         }
     }

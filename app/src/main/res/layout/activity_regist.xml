@@ -2,27 +2,26 @@
 <LinearLayout
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="@mipmap/login_bk"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.wechat.view.LoginActivity">
+    tools:context="com.example.wechat.view.RegistActivity">
 
     <ImageView
         android:layout_gravity="center"
         android:layout_marginTop="36dp"
-        android:src="@mipmap/logo"
+        android:src="@mipmap/avatar3"
         android:layout_width="60dp"
         android:layout_height="60dp"/>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_login_username"
+        android:id="@+id/til_regist_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/et_login_username"
+            android:id="@+id/et_regist_username"
             android:hint="用户名"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -30,14 +29,14 @@
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
-        android:id="@+id/til_login_pwd"
+        android:id="@+id/til_regist_pwd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/et_login_pwd"
-            android:inputType="numberPassword"
+            android:id="@+id/et_regist_pwd"
             android:hint="密码"
+            android:inputType="numberPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -46,22 +45,12 @@
     <Button
         android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:id="@+id/bt_login"
-        android:text="登录"
+        android:id="@+id/bt_regist"
+        android:text="注册"
         android:textColor="#fff"
         android:background="@drawable/selector_btn"
         android:gravity="center"
         android:textSize="22sp"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="5dp"
-        android:text="新用户"
-        android:gravity="right"
-        android:textSize="16sp"
-        android:textColor="@color/colorPrimary"
         android:layout_height="wrap_content"/>
 
 </LinearLayout>

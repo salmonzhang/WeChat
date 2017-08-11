@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.wechat.R;
+import com.example.wechat.Utils.StringUtils;
 import com.example.wechat.Utils.ToastUtil;
 
 import butterknife.BindView;
@@ -72,6 +73,18 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
         String pwd = mEtRegistPwd.getText().toString().trim();
 
         //校验数据
-
+        if (!StringUtils.checkUsername(username)) {//用户名不合法
+            mEtRegistUsername.requestFocus();
+            mTilRegistUsername.setEnabled(true);
+            mTilRegistUsername.setError("用户名不合法");
+        } else if (!StringUtils.checkPwd(pwd)) {//密码不合法
+            mEtRegistPwd.requestFocus();
+            mTilRegistPwd.setEnabled(true);
+            mTilRegistPwd.setError("密码不合法");
+        } else {
+            mTilRegistUsername.setEnabled(false);
+            mTilRegistPwd.setEnabled(false);
+            ToastUtil.showToast("恭喜您，注册成功！");
+        }
     }
 }

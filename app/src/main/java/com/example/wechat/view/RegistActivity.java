@@ -45,6 +45,7 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         ToastUtil.showToast("被点击了");
+        regist();
         return false;
     }
 
@@ -52,8 +53,25 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.bt_regist:
-
+                regist();
                 break;
         }
+    }
+
+    private void regist() {
+        /**
+         * 注册按钮被点击后的逻辑：
+         * 1：获取用户名和密码
+         * 2：校验数据
+         * 3：哪个数据不对，就在光标定位到那，并提示错误信息
+         * 4：开始注册
+         */
+
+        //获取用户名和密码
+        String username = mEtRegistUsername.getText().toString().trim();
+        String pwd = mEtRegistPwd.getText().toString().trim();
+
+        //校验数据
+
     }
 }

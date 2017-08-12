@@ -11,11 +11,13 @@ import android.widget.TextView;
 import com.example.wechat.R;
 import com.example.wechat.Utils.StringUtils;
 import com.example.wechat.Utils.ToastUtil;
+import com.example.wechat.presenter.RegistPresenter;
+import com.example.wechat.presenter.RegistPresenterImpl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class RegistActivity extends BaseActivity implements TextView.OnEditorActionListener, View.OnClickListener {
+public class RegistActivity extends BaseActivity implements TextView.OnEditorActionListener, View.OnClickListener ,RegistView{
 
     @BindView(R.id.et_regist_username)
     EditText mEtRegistUsername;
@@ -27,6 +29,8 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
     TextInputLayout mTilRegistPwd;
     @BindView(R.id.bt_regist)
     Button mBtRegist;
+
+    private RegistPresenter mRegistPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,9 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
         mEtRegistPwd.setOnEditorActionListener(this);
         //登录按钮设置点击事件
         mBtRegist.setOnClickListener(this);
+
+        //获取处理登录的P层对象
+        mRegistPresenter = new RegistPresenterImpl(this);
     }
 
     @Override
@@ -84,7 +91,21 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
         } else {
             mTilRegistUsername.setEnabled(false);
             mTilRegistPwd.setEnabled(false);
-            ToastUtil.showToast("恭喜您，注册成功！");
+            //用户名和密码都合法后，调用P层的注册功能
+            showDialog("正在注册中......");
+            mRegistPresenter.regist(username, pwd);
         }
+    }
+
+    //P层返回的注册结果
+    @Override
+    public void onRegist(boolean isSuccess, String username, String pwd, String success) {
+        /**
+         * 注册后的逻辑：
+         * 1：让Dialog隐藏
+         * 2：如果注册成功，跳转到登录页面
+         * 3：如果注册失败，弹吐司，告诉用户失败的原因
+         */
+
     }
 }

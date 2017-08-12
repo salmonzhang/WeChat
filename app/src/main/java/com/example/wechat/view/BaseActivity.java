@@ -1,5 +1,6 @@
 package com.example.wechat.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -17,6 +18,8 @@ import android.view.WindowManager;
  */
 
 public class BaseActivity extends AppCompatActivity {
+
+    private ProgressDialog mProgressDialog;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,6 +56,24 @@ public class BaseActivity extends AppCompatActivity {
         startActivity(new Intent(this,clazz));
         if (isFinish) {
             finish();
+        }
+    }
+
+    //显示对话框
+    public void showDialog(String msg){
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            //设置对话框不可取消
+            mProgressDialog.setCancelable(false);
+        }
+        mProgressDialog.setMessage(msg);
+        mProgressDialog.show();
+    }
+
+    //隐藏对话框
+    public void hideDialog() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
         }
     }
 }

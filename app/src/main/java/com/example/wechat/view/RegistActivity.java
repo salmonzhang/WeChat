@@ -125,6 +125,7 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
         if (isSuccess) {
             //注册成功后，将用户名和密码保存在SP中
             saveUser(username,pwd);
+            //配置登录界面的启动模式，保证任务栈中只有一个实例：singleTask
             startActivity(LoginActivity.class, true);
         } else {
             ToastUtil.showToast(msg);

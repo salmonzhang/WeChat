@@ -3,6 +3,7 @@ package com.example.wechat.presenter;
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVUser;
 import com.avos.avoscloud.SignUpCallback;
+import com.example.wechat.Utils.ThreadFactory;
 import com.example.wechat.view.RegistView;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
@@ -36,20 +37,25 @@ public class RegistPresenterImpl implements RegistPresenter {
             public void done(AVException e) {
                 if (e == null) {//云数据库注册成功
                     //环信平台注册
-                    try {
-                        EMClient.getInstance().createAccount(username, pwd);
-                        //将注册结果返回给V层对象
-                        mRegistView.onRegist(true,username,pwd,"success");
-                    } catch (HyphenateException e1) {
-                        e1.printStackTrace();
-                        //环信注册失败，则从云数据平台删除数据
-                        avUser.deleteInBackground();
-                        //将注册结果返回给V层对象
-                        mRegistView.onRegist(true,username,pwd,"环信注册失败");
-                    }
+                    ThreadFactory.runOnSubThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                EMClient.getInstance().createAccount(username, pwd);
+                                //将注册结果返回给V层对象
+                                mRegistView.onRegist(true,username,pwd,"success");
+                            } catch (HyphenateException e1) {
+                                e1.printStackTrace();
+                                //环信注册失败，则从云数据平台删除数据
+                                avUser.deleteInBackground();
+                                //将注册结果返回给V层对象
+                                mRegistView.onRegist(false,username,pwd,"环信注册失败");
+                            }
+                        }
+                    });
                 } else {//云数据库注册失败
                     //将注册结果返回给V层对象
-                    mRegistView.onRegist(true,username,pwd,"云数据库注册失败");
+                    mRegistView.onRegist(false,username,pwd,"云数据库注册失败");
                 }
             }
         });

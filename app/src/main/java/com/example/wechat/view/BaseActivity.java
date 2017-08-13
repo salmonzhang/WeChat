@@ -2,6 +2,7 @@ package com.example.wechat.view;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.example.wechat.Utils.Constant;
 
 /**
  * author:salmonzhang
@@ -20,11 +23,11 @@ import android.view.WindowManager;
 public class BaseActivity extends AppCompatActivity {
 
     private ProgressDialog mProgressDialog;
+    private SharedPreferences mSp;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
 
         if (isEnableTranslucentStatus()) {
 
@@ -44,6 +47,9 @@ public class BaseActivity extends AppCompatActivity {
             }
             // 以上代码基本解决适配各种版本全透明状态栏（如导航栏有需求可以再加导航栏）
         }
+
+        //获取一个SP对象
+        mSp = getSharedPreferences("config", MODE_PRIVATE);
     }
 
     //是否要实现沉浸式状态栏
@@ -75,5 +81,23 @@ public class BaseActivity extends AppCompatActivity {
         if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
+    }
+
+    //保存用户名和密码
+    public void saveUser(String username,String pwd){
+        mSp.edit()
+                .putString(Constant.SP_USERNAME, username)
+                .putString(Constant.SP_PWD, pwd)
+                .commit();
+    }
+
+    //获取用户名
+    public String getUsername() {
+        return mSp.getString(Constant.SP_USERNAME, "");
+    }
+
+    //获取密码
+    public String getPwd() {
+        return mSp.getString(Constant.SP_PWD, "");
     }
 }

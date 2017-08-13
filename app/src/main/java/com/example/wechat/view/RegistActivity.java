@@ -43,13 +43,14 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
     private void init() {
         //密码框EditText的Action键的监听
         mEtRegistPwd.setOnEditorActionListener(this);
-        //登录按钮设置点击事件
+        //注册按钮设置点击事件
         mBtRegist.setOnClickListener(this);
 
         //获取处理登录的P层对象
         mRegistPresenter = new RegistPresenterImpl(this);
     }
 
+    //密码框EditText的Action键的监听
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         ToastUtil.showToast("被点击了");
@@ -57,6 +58,7 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
         return false;
     }
 
+    //注册按钮设置点击事件
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -80,26 +82,37 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
         String pwd = mEtRegistPwd.getText().toString().trim();
 
         //校验数据
-        if (!StringUtils.checkUsername(username)) {//用户名不合法
+        if (!StringUtils.checkUsername(username)){//不合法
             mEtRegistUsername.requestFocus();
-            mTilRegistUsername.setEnabled(true);
+            //将错误信息显示到TextInputLayout上
+            mTilRegistUsername.setErrorEnabled(true);
             mTilRegistUsername.setError("用户名不合法");
-        } else if (!StringUtils.checkPwd(pwd)) {//密码不合法
-            mEtRegistPwd.requestFocus();
-            mTilRegistPwd.setEnabled(true);
-            mTilRegistPwd.setError("密码不合法");
-        } else {
-            mTilRegistUsername.setEnabled(false);
-            mTilRegistPwd.setEnabled(false);
-            //用户名和密码都合法后，调用P层的注册功能
-            showDialog("正在注册中......");
-            mRegistPresenter.regist(username, pwd);
+            return;
+        }else{//合法
+            //将TextInputLayout上的错误信息隐藏
+            mTilRegistUsername.setErrorEnabled(false);
         }
+
+        if (!StringUtils.checkPwd(pwd)){
+            mEtRegistPwd.requestFocus();
+            //将错误信息显示到TextInputLayout上
+            mTilRegistPwd.setErrorEnabled(true);
+            mTilRegistPwd.setError("密码不合法");
+            return;
+        }else{
+            mTilRegistPwd.setErrorEnabled(false);
+        }
+
+        //显示一个Dialog，提醒用户正在注册
+        showDialog("正在注册中......");
+
+        //让P层去执行注册操作的功能
+        mRegistPresenter.regist(username,pwd);
     }
 
     //P层返回的注册结果
     @Override
-    public void onRegist(boolean isSuccess, String username, String pwd, String success) {
+    public void onRegist(boolean isSuccess, String username, String pwd, String msg) {
         /**
          * 注册后的逻辑：
          * 1：让Dialog隐藏
@@ -107,5 +120,14 @@ public class RegistActivity extends BaseActivity implements TextView.OnEditorAct
          * 3：如果注册失败，弹吐司，告诉用户失败的原因
          */
 
+        //结果返回后，首先应将Dialog隐藏
+        hideDialog();
+        if (isSuccess) {
+            //注册成功后，将用户名和密码保存在SP中
+            saveUser(username,pwd);
+            startActivity(LoginActivity.class, true);
+        } else {
+            ToastUtil.showToast(msg);
+        }
     }
 }

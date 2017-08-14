@@ -100,6 +100,12 @@ public class MainActivity extends BaseActivity implements Toolbar.OnMenuItemClic
             @Override
             public void onTabSelected(int position) {
 
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fl_main_content, FragmentFactory.getFragment(position))
+                        .commit();
+
+                //初始化ToolBar的标题
+                mTvTitle.setText(titles[position]);
             }
 
             @Override

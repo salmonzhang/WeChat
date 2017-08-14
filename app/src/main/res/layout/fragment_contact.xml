@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
+<com.example.wechat.widget.ContactLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/contactLayout"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:text="联系人"
-        android:layout_height="wrap_content"/>
-
-</LinearLayout>
+</com.example.wechat.widget.ContactLayout>

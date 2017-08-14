@@ -12,6 +12,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.example.wechat.R;
 import com.example.wechat.Utils.ToastUtil;
+import com.example.wechat.view.fragment.FragmentFactory;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,7 +69,13 @@ public class MainActivity extends BaseActivity implements Toolbar.OnMenuItemClic
 
     //初始化中间的Fragment
     private void initFragment() {
+        //先添加一个Fragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fl_main_content, FragmentFactory.getFragment(0))
+                .commit();
 
+        //初始化ToolBar的标题
+        mTvTitle.setText(titles[0]);
     }
 
     //初始化底部导航栏
@@ -92,7 +99,7 @@ public class MainActivity extends BaseActivity implements Toolbar.OnMenuItemClic
         mBottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
-                ToastUtil.showToast("选中了"+position);
+
             }
 
             @Override

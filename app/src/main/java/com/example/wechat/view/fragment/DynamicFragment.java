@@ -17,7 +17,7 @@ import com.hyphenate.chat.EMClient;
 /**
  * author:salmonzhang
  * Description:
- * Date:2017/8/14 0014 10:58
+ * Date:2017/8/14 10:58
  */
 
 public class DynamicFragment extends BaseFragment implements View.OnClickListener ,LogoutView {

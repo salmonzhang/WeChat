@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_contact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_contact"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <TextView
+        android:visibility="gone"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textColor="#ffffff"
+        android:text="M"
+        android:textSize="40sp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:background="@drawable/float_text_bg"
+        android:id="@+id/tv_floatView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    
+    
+    <com.example.wechat.widget.SlideBar
+        android:id="@+id/slideBar"
+        android:layout_alignParentRight="true"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"/>
+
+</RelativeLayout>

@@ -27,7 +27,7 @@ public class MainActivity extends BaseActivity implements Toolbar.OnMenuItemClic
     FrameLayout mFlMainContent;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar mBottomNavigationBar;
-    private String [] titles = {"首页","消息","动态"};
+    private String [] titles = {"首页","通讯录","动态"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -99,12 +99,12 @@ public class MainActivity extends BaseActivity implements Toolbar.OnMenuItemClic
         mBottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
-
+                // REFACTOR: 2017/8/14 此处代码待重构
                 getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fl_main_content, FragmentFactory.getFragment(position))
                         .commit();
 
-                //初始化ToolBar的标题
+                //ToolBar的标题的切换
                 mTvTitle.setText(titles[position]);
             }
 

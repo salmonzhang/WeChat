@@ -4,9 +4,27 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <TextView
+    <ImageView
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/avatar3"
+        android:layout_width="@dimen/avatar_size"
+        android:layout_height="@dimen/avatar_size"/>
+
+    <Button
+        android:id="@+id/btn_dynamic_logout"
         android:layout_width="match_parent"
-        android:text="动态"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/selector_btn_logout"
+        android:text="退出"
+        android:textAllCaps="false"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/btn_text_size"/>
+
+    <CalendarView
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
 </LinearLayout>

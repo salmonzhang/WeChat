@@ -17,7 +17,7 @@ import android.view.ViewGroup;
 public abstract class BaseFragment extends Fragment {
 
 
-    private Context mContext;
+    public Context mContext;
 
     //初始化
     @Override

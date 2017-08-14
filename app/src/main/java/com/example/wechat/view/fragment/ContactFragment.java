@@ -8,6 +8,8 @@ import com.example.wechat.presenter.ContactPresenter;
 import com.example.wechat.presenter.ContactPresenterImpl;
 import com.example.wechat.widget.ContactLayout;
 
+import java.util.List;
+
 /**
  * author:salmonzhang
  * Description:
@@ -32,6 +34,18 @@ public class ContactFragment extends BaseFragment implements ContactView {
     public void initData() {
 
         mContactPresenter.initContact();
+
+    }
+
+    //获取P层返回的联系人数据
+    @Override
+    public void onInitContacts(List<String> contactsList) {
+
+    }
+
+    //更新联系人数据
+    @Override
+    public void onUpdateContact(boolean isSuccess, String message) {
 
     }
 }

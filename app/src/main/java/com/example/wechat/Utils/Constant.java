@@ -9,4 +9,5 @@ package com.example.wechat.Utils;
 public class Constant {
     public static final String SP_USERNAME = "username";
     public static final String SP_PWD = "pwd";
+    public static final String DB_NAME = "t_contact";
 }

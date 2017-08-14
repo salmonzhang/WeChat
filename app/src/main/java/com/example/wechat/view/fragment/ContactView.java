@@ -1,5 +1,7 @@
 package com.example.wechat.view.fragment;
 
+import java.util.List;
+
 /**
  * author:salmonzhang
  * Description:
@@ -7,4 +9,8 @@ package com.example.wechat.view.fragment;
  */
 
 public interface ContactView {
+
+    void onInitContacts(List<String> contactsList);
+
+    void onUpdateContact(boolean isSuccess, String message);
 }

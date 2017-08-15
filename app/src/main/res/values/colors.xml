@@ -6,5 +6,5 @@
     <color name="colorActive">#9c9c9c</color>
     <color name="btnNormal">#ff0000</color>
     <color name="btnPressed">#bb0000</color>
-
+    <color name="section_bg">#e7e7e7</color>
 </resources>

@@ -30,4 +30,12 @@ public class StringUtils {
         }
         return pwd.matches(PWD_REGEX);
     }
+
+    //获取字符串中的首字母
+    public static String getInitial(String contact) {
+        if (TextUtils.isEmpty(contact)) {
+            return "搜";
+        }
+        return contact.substring(0, 1).toUpperCase();
+    }
 }

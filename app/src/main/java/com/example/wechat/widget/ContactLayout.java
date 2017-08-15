@@ -13,6 +13,7 @@ import com.example.wechat.R;
 import com.example.wechat.gloab.WeChatApplication;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * author:salmonzhang
@@ -46,6 +47,7 @@ public class ContactLayout extends RelativeLayout {
     private void initView() {
         //1.将contact_layout作为子控件添加到当前ViewGroup中
         LayoutInflater.from(WeChatApplication.context).inflate(R.layout.contact_layout, this, true);
+        ButterKnife.bind(this);
 
     }
 

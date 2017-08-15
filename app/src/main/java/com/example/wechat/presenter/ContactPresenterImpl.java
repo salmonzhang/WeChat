@@ -6,6 +6,7 @@ import com.example.wechat.view.fragment.ContactView;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 public class ContactPresenterImpl implements ContactPresenter {
 
     private  ContactView mContactView;
-    private List<String> mContactsList;
+    private List<String> mContactsList = new ArrayList<>();
 
     public ContactPresenterImpl(ContactView contactView) {
         this.mContactView = contactView;
@@ -42,8 +43,10 @@ public class ContactPresenterImpl implements ContactPresenter {
         List<String> contacts = DBUtils.getContact(currentUser);
 
         //将缓存获取到的数据保存在P层的集合中
-        mContactsList.clear();
-        mContactsList.addAll(contacts);
+        if (mContactsList != null) {
+            mContactsList.clear();
+            mContactsList.addAll(contacts);
+        }
 
         //将P层的集合数据返回到V层
         if (mContactsList != null && mContactsList.size() > 0) {
@@ -55,8 +58,10 @@ public class ContactPresenterImpl implements ContactPresenter {
             @Override
             public void onSuccess(List<String> contacts) {//获取数据成功
                 //将数据添加到集合中
-                mContactsList.clear();
-                mContactsList.addAll(contacts);
+                if (mContactsList != null) {
+                    mContactsList.clear();
+                    mContactsList.addAll(contacts);
+                }
                 //对数据集合进行排序
                 Collections.sort(mContactsList, new Comparator<String>() {
                     @Override

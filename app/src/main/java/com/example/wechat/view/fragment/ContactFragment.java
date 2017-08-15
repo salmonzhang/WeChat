@@ -5,10 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 
 import com.example.wechat.R;
+import com.example.wechat.Utils.ToastUtil;
 import com.example.wechat.adapter.ContactAdapter;
 import com.example.wechat.presenter.ContactPresenter;
 import com.example.wechat.presenter.ContactPresenterImpl;
 import com.example.wechat.widget.ContactLayout;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -30,6 +35,9 @@ public class ContactFragment extends BaseFragment implements ContactView, SwipeR
         View view = inflater.inflate(R.layout.fragment_contact, null);
         mContactLayout = (ContactLayout) view.findViewById(R.id.contactLayout);
         mContactPresenter = new ContactPresenterImpl(this);
+
+        //将当前的Fragment作为EventBus的订阅者
+        EventBus.getDefault().register(this);
         return view;
     }
 
@@ -41,6 +49,18 @@ public class ContactFragment extends BaseFragment implements ContactView, SwipeR
         //监听下拉刷新
         mContactLayout.setFreshListener(this);
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(String contact) {
+        ToastUtil.showToast("联系人发生了改变"+contact);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //Fragment消失时，注销EventBus
+        EventBus.getDefault().unregister(this);
     }
 
     //获取P层返回的联系人数据

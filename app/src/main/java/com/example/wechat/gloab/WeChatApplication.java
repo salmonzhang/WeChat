@@ -12,6 +12,8 @@ import com.hyphenate.EMContactListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -48,12 +50,15 @@ public class WeChatApplication extends Application {
             public void onContactAdded(String username) {
                 //增加了联系人时回调此方法
                 Log.d(TAG, "onContactAdded: ");
+                //使用EventBus传递消息
+                EventBus.getDefault().post(username);
             }
 
             @Override
             public void onContactDeleted(String username) {
                 //删除了联系人时回调此方法
                 Log.d(TAG, "onContactDeleted: ");
+                EventBus.getDefault().post(username);
             }
 
             @Override

@@ -2,6 +2,7 @@ package com.example.wechat.widget;
 
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -46,5 +47,13 @@ public class ContactLayout extends RelativeLayout {
         //1.将contact_layout作为子控件添加到当前ViewGroup中
         LayoutInflater.from(WeChatApplication.context).inflate(R.layout.contact_layout, this, true);
 
+    }
+
+    //使用代理设计模式，将RecyclerView的Adapter通过ContactLayout代理出去
+    public void setAdapter(RecyclerView.Adapter adapter)  {
+        //1.设置布局管理器
+        mRvContact.setLayoutManager(new LinearLayoutManager(getContext()));
+        //2.设置适配器
+        mRvContact.setAdapter(adapter);
     }
 }

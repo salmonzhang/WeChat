@@ -52,7 +52,11 @@ public class ContactPresenterImpl implements ContactPresenter {
         if (mContactsList != null && mContactsList.size() > 0) {
             mContactView.onInitContacts(mContactsList);
         }
+        updateFromServer(currentUser);
+    }
 
+    //从服务器更新通讯录数据
+    private void updateFromServer(final String currentUser) {
         //从环信服务器上获取通讯录数据
         EMClient.getInstance().contactManager().aysncGetAllContactsFromServer(new EMValueCallBack<List<String>>() {
             @Override
@@ -91,5 +95,11 @@ public class ContactPresenterImpl implements ContactPresenter {
                 });
             }
         });
+    }
+
+    @Override
+    public void updateContacts() {
+        String currentUser = EMClient.getInstance().getCurrentUser();
+        updateFromServer(currentUser);
     }
 }

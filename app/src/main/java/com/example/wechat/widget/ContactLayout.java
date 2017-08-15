@@ -48,7 +48,8 @@ public class ContactLayout extends RelativeLayout {
         //1.将contact_layout作为子控件添加到当前ViewGroup中
         LayoutInflater.from(WeChatApplication.context).inflate(R.layout.contact_layout, this, true);
         ButterKnife.bind(this);
-
+        //修改下拉进度圈的颜色
+        mSrlContact.setColorSchemeColors(getResources().getColor(R.color.colorPrimary),getResources().getColor(R.color.btnPressed));
     }
 
     //使用代理设计模式，将RecyclerView的Adapter通过ContactLayout代理出去
@@ -57,6 +58,16 @@ public class ContactLayout extends RelativeLayout {
         mRvContact.setLayoutManager(new LinearLayoutManager(getContext()));
         //2.设置适配器
         mRvContact.setAdapter(adapter);
-
     }
+
+    //使用代理设计模式，将SwipeRefreshLayout的下拉刷新代理出去
+    public void setFreshListener(SwipeRefreshLayout.OnRefreshListener listener){
+        mSrlContact.setOnRefreshListener(listener);
+    }
+
+    //使用代理设计模式，将SwipeRefreshLayout的隐藏下拉进度圈代理出去
+    public void setRefresh(boolean isShow){
+        mSrlContact.setRefreshing(isShow);
+    }
+
 }

@@ -9,4 +9,6 @@ package com.example.wechat.presenter;
 public interface ContactPresenter {
 
     void initContact();
+
+    void updateContacts();
 }

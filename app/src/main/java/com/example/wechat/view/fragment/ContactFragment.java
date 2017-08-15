@@ -1,5 +1,6 @@
 package com.example.wechat.view.fragment;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * Date:2017/8/14 0014 10:44
  */
 
-public class ContactFragment extends BaseFragment implements ContactView {
+public class ContactFragment extends BaseFragment implements ContactView, SwipeRefreshLayout.OnRefreshListener {
 
 
     private ContactLayout mContactLayout;
@@ -37,6 +38,9 @@ public class ContactFragment extends BaseFragment implements ContactView {
 
         mContactPresenter.initContact();
 
+        //监听下拉刷新
+        mContactLayout.setFreshListener(this);
+
     }
 
     //获取P层返回的联系人数据
@@ -51,6 +55,14 @@ public class ContactFragment extends BaseFragment implements ContactView {
     //更新联系人数据
     @Override
     public void onUpdateContact(boolean isSuccess, String message) {
+        //通知适配器更新数据
         mContactAdapter.notifyDataSetChanged();
+        mContactLayout.setRefresh(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        //由P层去完成监听下拉刷新的操作
+        mContactPresenter.updateContacts();
     }
 }

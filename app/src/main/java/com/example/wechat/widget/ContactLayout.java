@@ -55,5 +55,6 @@ public class ContactLayout extends RelativeLayout {
         mRvContact.setLayoutManager(new LinearLayoutManager(getContext()));
         //2.设置适配器
         mRvContact.setAdapter(adapter);
+
     }
 }

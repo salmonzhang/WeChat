@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.avos.avoscloud.AVOSCloud;
+import com.hyphenate.EMContactListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 
@@ -37,6 +38,42 @@ public class WeChatApplication extends Application {
         initHuanXin();
         //初始化LeanCloud
         initLeanCloud();
+        //初始化环信好友变化监听
+        initContactListener();
+    }
+
+    private void initContactListener() {
+        EMClient.getInstance().contactManager().setContactListener(new EMContactListener() {
+            @Override
+            public void onContactAdded(String username) {
+                //增加了联系人时回调此方法
+                Log.d(TAG, "onContactAdded: ");
+            }
+
+            @Override
+            public void onContactDeleted(String username) {
+                //删除了联系人时回调此方法
+                Log.d(TAG, "onContactDeleted: ");
+            }
+
+            @Override
+            public void onContactInvited(String username, String reason) {
+                //收到好友邀请
+                Log.d(TAG, "onContactInvited: ");
+            }
+
+            @Override
+            public void onFriendRequestAccepted(String username) {
+                //好友请求被接收
+                Log.d(TAG, "onFriendRequestAccepted: ");
+            }
+
+            @Override
+            public void onFriendRequestDeclined(String username) {
+                //好友请求被拒绝
+                Log.d(TAG, "onFriendRequestDeclined: ");
+            }
+        });
     }
 
     private void initLeanCloud() {

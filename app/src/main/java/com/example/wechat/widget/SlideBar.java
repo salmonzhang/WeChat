@@ -2,11 +2,14 @@ package com.example.wechat.widget;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.example.wechat.R;
 import com.hyphenate.util.DensityUtil;
 
 /**
@@ -62,5 +65,28 @@ public class SlideBar extends View {
             float Y = mAverHeight *(i + 0.6f);
             canvas.drawText(SECTIONS[i],X,Y,mPaint);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_MOVE:
+                /**
+                 * 1: 改变SlideBar的背景颜色
+                 * 2：修改FloatTextView文本，并让其显示
+                 * 3：当选中的字母与通讯录中的字母一致时，让RecyclerView滚动
+                 */
+                setBackgroundResource(R.drawable.shape_slidebar_bg);
+                break;
+            case MotionEvent.ACTION_UP:
+                /**
+                 * 1：改变SlideBar的背景颜色
+                 * 2：隐藏FloatTextView文本
+                 */
+                setBackgroundColor(Color.TRANSPARENT);
+                break;
+        }
+        return true;
     }
 }

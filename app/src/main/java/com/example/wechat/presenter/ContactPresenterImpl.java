@@ -5,6 +5,7 @@ import com.example.wechat.db.DBUtils;
 import com.example.wechat.view.fragment.ContactView;
 import com.hyphenate.EMValueCallBack;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -101,5 +102,31 @@ public class ContactPresenterImpl implements ContactPresenter {
     public void updateContacts() {
         String currentUser = EMClient.getInstance().getCurrentUser();
         updateFromServer(currentUser);
+    }
+
+    @Override
+    public void deleteContact(final String contact) {
+        ThreadFactory.runOnSubThread(new Runnable() {
+            @Override
+            public void run() {
+                try {//删除成功
+                    EMClient.getInstance().contactManager().deleteContact(contact);
+                    ThreadFactory.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mContactView.onDeleteContact(true,contact,"isSuccess");
+                        }
+                    });
+                } catch (final HyphenateException e) {//删除失败
+                    e.printStackTrace();
+                    ThreadFactory.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mContactView.onDeleteContact(false,contact,e.toString());
+                        }
+                    });
+                }
+            }
+        });
     }
 }

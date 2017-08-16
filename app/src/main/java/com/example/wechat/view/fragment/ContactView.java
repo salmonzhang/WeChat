@@ -13,4 +13,6 @@ public interface ContactView {
     void onInitContacts(List<String> contactsList);
 
     void onUpdateContact(boolean isSuccess, String message);
+
+    void onDeleteContact(boolean isSuccess, String contact, String message);
 }

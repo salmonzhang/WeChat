@@ -11,4 +11,6 @@ public interface ContactPresenter {
     void initContact();
 
     void updateContacts();
+
+    void deleteContact(String contact);
 }

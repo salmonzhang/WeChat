@@ -1,5 +1,7 @@
 package com.example.wechat.view.fragment;
 
+import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,7 @@ import com.example.wechat.adapter.ContactAdapter;
 import com.example.wechat.event.ContactUpdateEvent;
 import com.example.wechat.presenter.ContactPresenter;
 import com.example.wechat.presenter.ContactPresenterImpl;
+import com.example.wechat.view.ChatActivity;
 import com.example.wechat.widget.ContactLayout;
 
 import org.greenrobot.eventbus.EventBus;
@@ -93,12 +96,33 @@ public class ContactFragment extends BaseFragment implements ContactView, SwipeR
     //点击监听
     @Override
     public void onClick(String contact, int postion) {
-        ToastUtil.showToast(contact+"itemView被点击了"+postion);
+        //点击后，跳转到聊天界面
+        Intent intent = new Intent(getActivity(), ChatActivity.class);
+        intent.putExtra("contact", contact);
+        startActivity(intent);
     }
 
     //长点击监听
     @Override
-    public void onLongClick(String contact, int postion) {
-        ToastUtil.showToast(contact+"itemView被长点击了！！！"+postion);
+    public void onLongClick(final String contact, int postion) {
+        //长点击后，弹出SnackBar，提示用户是否删除当前好友
+        Snackbar.make(mContactLayout,"确定删除"+contact+"吗？",Snackbar.LENGTH_LONG)
+                .setAction("确定", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //由P层去完成删除联系人的操作
+                        mContactPresenter.deleteContact(contact);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    public void onDeleteContact(boolean isSuccess, String contact, String message) {
+        if (isSuccess) {
+            ToastUtil.showToast("成功删除"+contact);
+        } else {
+            ToastUtil.showToast("网络异常，删除失败");
+        }
     }
 }

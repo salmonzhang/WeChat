@@ -8,9 +8,10 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.wechat.R;
-import com.example.wechat.Utils.ToastUtil;
 import com.hyphenate.util.DensityUtil;
 
 /**
@@ -25,6 +26,7 @@ public class SlideBar extends View {
     private int mWidth;
     private float mAverHeight;
     private Paint mPaint;
+    private TextView mTvFloatView;
 
     public SlideBar(Context context) {
         this(context, null);
@@ -88,6 +90,10 @@ public class SlideBar extends View {
                  * 2：隐藏FloatTextView文本
                  */
                 setBackgroundColor(Color.TRANSPARENT);
+                if (mTvFloatView != null) {
+                    mTvFloatView.setVisibility(GONE);
+                }
+
                 break;
         }
         return true;
@@ -103,6 +109,14 @@ public class SlideBar extends View {
         if (position > SECTIONS.length - 1) {
             position = SECTIONS.length - 1;
         }
-        ToastUtil.showToast(SECTIONS[position]);
+
+        //通过父控件找到兄弟控件
+        if (mTvFloatView == null) {
+            ViewGroup parent = (ViewGroup) getParent();
+            mTvFloatView = (TextView) parent.findViewById(R.id.tv_floatView);
+        }
+
+        mTvFloatView.setText(SECTIONS[position]);
+        mTvFloatView.setVisibility(VISIBLE);
     }
 }

@@ -5,6 +5,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,7 +14,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.wechat.R;
+import com.example.wechat.Utils.StringUtils;
+import com.example.wechat.presenter.IContactAdapter;
 import com.hyphenate.util.DensityUtil;
+
+import java.util.List;
 
 /**
  * author:salmonzhang
@@ -27,6 +33,7 @@ public class SlideBar extends View {
     private float mAverHeight;
     private Paint mPaint;
     private TextView mTvFloatView;
+    private RecyclerView mRvContact;
 
     public SlideBar(Context context) {
         this(context, null);
@@ -114,9 +121,33 @@ public class SlideBar extends View {
         if (mTvFloatView == null) {
             ViewGroup parent = (ViewGroup) getParent();
             mTvFloatView = (TextView) parent.findViewById(R.id.tv_floatView);
+            mRvContact = (RecyclerView) parent.findViewById(R.id.rv_contact);
         }
 
-        mTvFloatView.setText(SECTIONS[position]);
+        String section = SECTIONS[position];
+        mTvFloatView.setText(section);
         mTvFloatView.setVisibility(VISIBLE);
+
+        /**
+         * 滚动RcyclerView的思路：
+         * 1：根据父控件获取到RcyclerView对象
+         * 2：从RcyclerView的适配器中获取到适配器中的集合数据
+         * 3：循环遍历集合数据，判断集合中的数据的首字母是否等于当前手指滑动到的字母
+         * 4：让RcyclerView滚动到当前索引的位置
+         */
+        IContactAdapter adapter = (IContactAdapter) mRvContact.getAdapter();
+        List<String> items = adapter.getItems();
+
+        //定义一个滚动的位置的常量
+        int scroll2position = 0;
+        for (int i = 0; i < items.size(); i++) {
+            if (section.equalsIgnoreCase(StringUtils.getInitial(items.get(i)))) {
+                scroll2position = i;
+                break;
+            }
+        }
+
+        LinearLayoutManager layoutManager = (LinearLayoutManager) mRvContact.getLayoutManager();
+        layoutManager.scrollToPositionWithOffset(scroll2position,0);
     }
 }

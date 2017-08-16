@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.example.wechat.R;
 import com.example.wechat.Utils.StringUtils;
+import com.example.wechat.presenter.IContactAdapter;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
  * Date:2017/8/15 0015 19:33
  */
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> {
+public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder> implements IContactAdapter {
 
     private List<String> mContactList;
 
@@ -85,6 +86,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                 return true;
             }
         });
+    }
+
+    //提供一个方法让RecyclerView获取适配器中的数据集合
+    @Override
+    public List<String> getItems() {
+        return mContactList;
     }
 
     //给RecyclerView定义回调接口

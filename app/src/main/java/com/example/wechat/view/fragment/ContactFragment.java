@@ -7,6 +7,7 @@ import android.view.View;
 import com.example.wechat.R;
 import com.example.wechat.Utils.ToastUtil;
 import com.example.wechat.adapter.ContactAdapter;
+import com.example.wechat.event.ContactUpdateEvent;
 import com.example.wechat.presenter.ContactPresenter;
 import com.example.wechat.presenter.ContactPresenterImpl;
 import com.example.wechat.widget.ContactLayout;
@@ -52,8 +53,8 @@ public class ContactFragment extends BaseFragment implements ContactView, SwipeR
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(String contact) {
-        ToastUtil.showToast("联系人发生了改变"+contact);
+    public void onMessageEvent(ContactUpdateEvent event) {
+        ToastUtil.showToast("服务器"+(event.isAdded?"添加了:":"删除了:")+event.contact);
     }
 
     @Override

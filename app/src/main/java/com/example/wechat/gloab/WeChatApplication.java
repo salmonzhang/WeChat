@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.avos.avoscloud.AVOSCloud;
+import com.example.wechat.event.ContactUpdateEvent;
 import com.hyphenate.EMContactListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
@@ -51,14 +52,14 @@ public class WeChatApplication extends Application {
                 //增加了联系人时回调此方法
                 Log.d(TAG, "onContactAdded: ");
                 //使用EventBus传递消息
-                EventBus.getDefault().post(username);
+                EventBus.getDefault().post(new ContactUpdateEvent(username,true));
             }
 
             @Override
             public void onContactDeleted(String username) {
                 //删除了联系人时回调此方法
                 Log.d(TAG, "onContactDeleted: ");
-                EventBus.getDefault().post(username);
+                EventBus.getDefault().post(new ContactUpdateEvent(username,false));
             }
 
             @Override

@@ -24,7 +24,7 @@ import java.util.List;
  * Date:2017/8/14 0014 10:44
  */
 
-public class ContactFragment extends BaseFragment implements ContactView, SwipeRefreshLayout.OnRefreshListener {
+public class ContactFragment extends BaseFragment implements ContactView, SwipeRefreshLayout.OnRefreshListener, ContactAdapter.onContactClickListener {
 
 
     private ContactLayout mContactLayout;
@@ -70,6 +70,8 @@ public class ContactFragment extends BaseFragment implements ContactView, SwipeR
         //将获取到的数据填充到ContactLayout中的RecyclerView上，（使用代理设计模式）
         mContactAdapter = new ContactAdapter(contactsList);
         mContactLayout.setAdapter(mContactAdapter);
+        //给适配器添加监听
+        mContactAdapter.setOnContactClickListener(this);
 
     }
 
@@ -78,6 +80,7 @@ public class ContactFragment extends BaseFragment implements ContactView, SwipeR
     public void onUpdateContact(boolean isSuccess, String message) {
         //通知适配器更新数据
         mContactAdapter.notifyDataSetChanged();
+        //更新完数据后，让下拉进度圈消失
         mContactLayout.setRefresh(false);
     }
 
@@ -85,5 +88,17 @@ public class ContactFragment extends BaseFragment implements ContactView, SwipeR
     public void onRefresh() {
         //由P层去完成监听下拉刷新的操作
         mContactPresenter.updateContacts();
+    }
+
+    //点击监听
+    @Override
+    public void onClick(String contact, int postion) {
+        ToastUtil.showToast(contact+"itemView被点击了"+postion);
+    }
+
+    //长点击监听
+    @Override
+    public void onLongClick(String contact, int postion) {
+        ToastUtil.showToast(contact+"itemView被长点击了！！！"+postion);
     }
 }

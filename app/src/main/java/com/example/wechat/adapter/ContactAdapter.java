@@ -37,12 +37,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         return new ContactViewHolder(view);
     }
 
-
-
     //绑定数据
     @Override
-    public void onBindViewHolder(ContactViewHolder holder,int position) {
-        String contact = mContactList.get(position);
+    public void onBindViewHolder(ContactViewHolder holder, final int position) {
+        final String contact = mContactList.get(position);
 
         //填充数据
         holder.mTvUsername.setText(contact);
@@ -66,6 +64,39 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
                 holder.mTvSection.setVisibility(View.VISIBLE);
             }
         }
+
+        //给ItemView绑定接口回调监听
+        /**
+         * 点击监听
+         */
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnContactClickListener.onClick(contact,position);
+            }
+        });
+        /**
+         * 长点击监听
+         */
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                mOnContactClickListener.onLongClick(contact,position);
+                return true;
+            }
+        });
+    }
+
+    //给RecyclerView定义回调接口
+    public interface onContactClickListener{
+        void onClick(String contact,int postion);
+        void onLongClick(String contact,int postion);
+    }
+
+    private onContactClickListener mOnContactClickListener;
+
+    public void setOnContactClickListener(onContactClickListener onContactClickListener) {
+        mOnContactClickListener = onContactClickListener;
     }
 
     class ContactViewHolder extends RecyclerView.ViewHolder{

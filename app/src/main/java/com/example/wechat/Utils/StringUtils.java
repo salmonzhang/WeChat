@@ -2,6 +2,9 @@ package com.example.wechat.Utils;
 
 import android.text.TextUtils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * author:salmonzhang
  * Description:
@@ -37,5 +40,11 @@ public class StringUtils {
             return "搜";
         }
         return contact.substring(0, 1).toUpperCase();
+    }
+
+    //格式化时间
+    public static String getDateString(Date date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(date);
     }
 }

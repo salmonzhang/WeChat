@@ -40,9 +40,9 @@ public class AddFriendPresenterImpl implements AddFriendPresenter {
             @Override
             public void done(List<AVUser> list, AVException e) {
                 if (e != null) {//有异常
-                    mAddFriendView.omSearchResult(false,null,e.getMessage());
+                    mAddFriendView.onSearchResult(false,null,e.getMessage());
                 } else {//无异常
-                    mAddFriendView.omSearchResult(true,list,"success");
+                    mAddFriendView.onSearchResult(true,list,"success");
                 }
             }
         });

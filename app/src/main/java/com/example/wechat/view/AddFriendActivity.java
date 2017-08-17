@@ -1,6 +1,7 @@
 package com.example.wechat.view;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.avos.avoscloud.AVUser;
 import com.example.wechat.R;
 import com.example.wechat.Utils.ToastUtil;
+import com.example.wechat.adapter.AddFriendAdapter;
 import com.example.wechat.presenter.AddFriendPresenter;
 import com.example.wechat.presenter.AddFriendPresenterImpl;
 
@@ -102,7 +104,10 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
     @Override
     public boolean onQueryTextSubmit(String query) {
         //由P层去完成查询的操作
-        mAddFriendPresenter.search(query);
+        if (query != null) {
+            mAddFriendPresenter.search(query);
+            showDialog("正在加载中......");
+        }
         return false;
     }
 
@@ -113,20 +118,29 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
      */
     @Override
     public boolean onQueryTextChange(String newText) {
-        ToastUtil.showToast(newText);
+        if (newText != null) {
+            ToastUtil.showToast(newText);
+        }
+
         return false;
     }
 
     @Override
-    public void omSearchResult(boolean isSuccess, List<AVUser> list, String message) {
+    public void onSearchResult(boolean isSuccess, List<AVUser> list, String message) {
         /**
          * 1：隐藏进度圈
          * 2：如果成功，将list数据显示到RecyclerView上
          * 3：如果失败，弹吐司
          */
+        hideDialog();
+        mIvNodata.setVisibility(View.GONE);
+        mRvAddFriend.setVisibility(View.VISIBLE);
         if (isSuccess) {//查询数据成功
             if (list != null && list.size() >0) {
-                ToastUtil.showToast("查询成功"+list.toString());
+                //将返回的数据用Adapter条目显示
+                AddFriendAdapter friendAdapter = new AddFriendAdapter(list);
+                mRvAddFriend.setLayoutManager(new LinearLayoutManager(this));
+                mRvAddFriend.setAdapter(friendAdapter);
             }
 
         } else {//查询数据失败

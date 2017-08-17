@@ -11,5 +11,5 @@ import java.util.List;
  */
 
 public interface AddFriendView {
-    void omSearchResult(boolean isSuccess, List<AVUser> list, String message);
+    void onSearchResult(boolean isSuccess, List<AVUser> list, String message);
 }

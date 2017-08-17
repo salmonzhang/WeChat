@@ -2,18 +2,21 @@ package com.example.wechat.view;
 
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.wechat.R;
+import com.example.wechat.Utils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddFriendActivity extends BaseActivity {
+public class AddFriendActivity extends BaseActivity implements SearchView.OnQueryTextListener {
 
     @BindView(R.id.toolBar)
     Toolbar mToolBar;
@@ -57,6 +60,52 @@ public class AddFriendActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_add_friend, menu);
+
+        //从Menu中获取searchView对象
+        MenuItem menuItem = menu.findItem(R.id.menu_add_friend_activity);
+        //根据menuItem获取searchView对象
+        SearchView searchView = (SearchView) menuItem.getActionView();
+
+        /**
+         * 当searchView获取焦点时，隐藏“搜”字
+         */
+        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    mTvAddFriend.setVisibility(View.INVISIBLE);
+                } else {
+                    mTvAddFriend.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
+        /**
+         * 监听searchView文本框中文字改变监听
+         */
+        searchView.setOnQueryTextListener(this);
         return true;
+    }
+
+    /**
+     * 输入文本框中文字后，点击软键盘上的查询按钮，触发该监听事件
+     * @param query
+     * @return
+     */
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        ToastUtil.showToast(query);
+        return false;
+    }
+
+    /**
+     * SearchView文本框中的文字发生变化时，触发该监听事件
+     * @param newText
+     * @return
+     */
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        ToastUtil.showToast(newText);
+        return false;
     }
 }

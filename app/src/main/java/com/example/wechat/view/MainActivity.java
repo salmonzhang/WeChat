@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity implements Toolbar.OnMenuItemClic
         //让ToolBar替换ActionBar
         setSupportActionBar(mToolbar);
         //显示ToolBar上的返回箭头
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //给菜单条目设置点击事件
         mToolbar.setOnMenuItemClickListener(this);
     }

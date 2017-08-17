@@ -34,6 +34,7 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
     @BindView(R.id.tv_add_friend)
     TextView mTvAddFriend;
     private AddFriendPresenter mAddFriendPresenter;
+    private SearchView mSearchView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -73,12 +74,12 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
         //从Menu中获取searchView对象
         MenuItem menuItem = menu.findItem(R.id.menu_add_friend_activity);
         //根据menuItem获取searchView对象
-        SearchView searchView = (SearchView) menuItem.getActionView();
+        mSearchView = (SearchView) menuItem.getActionView();
 
         /**
          * 当searchView获取焦点时，隐藏“搜”字
          */
-        searchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
@@ -92,7 +93,7 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
         /**
          * 监听searchView文本框中文字改变监听
          */
-        searchView.setOnQueryTextListener(this);
+        mSearchView.setOnQueryTextListener(this);
         return true;
     }
 
@@ -131,20 +132,29 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
          * 1：隐藏进度圈
          * 2：如果成功，将list数据显示到RecyclerView上
          * 3：如果失败，弹吐司
+         * 4：将SearchView的焦点去掉
          */
         hideDialog();
-        mIvNodata.setVisibility(View.GONE);
-        mRvAddFriend.setVisibility(View.VISIBLE);
+        mSearchView.clearFocus();
+        mTvAddFriend.setVisibility(View.INVISIBLE);
         if (isSuccess) {//查询数据成功
-            if (list != null && list.size() >0) {
+            if (list != null && list.size() > 0) {
                 //将返回的数据用Adapter条目显示
                 AddFriendAdapter friendAdapter = new AddFriendAdapter(list);
                 mRvAddFriend.setLayoutManager(new LinearLayoutManager(this));
                 mRvAddFriend.setAdapter(friendAdapter);
+                mIvNodata.setVisibility(View.GONE);
+                mRvAddFriend.setVisibility(View.VISIBLE);
+            } else {
+                ToastUtil.showToast("没有查询到符合条件的结果");
+                mIvNodata.setVisibility(View.VISIBLE);
+                mRvAddFriend.setVisibility(View.INVISIBLE);
             }
 
         } else {//查询数据失败
             ToastUtil.showToast("查询失败"+message);
+            mIvNodata.setVisibility(View.VISIBLE);
+            mRvAddFriend.setVisibility(View.INVISIBLE);
         }
     }
 }

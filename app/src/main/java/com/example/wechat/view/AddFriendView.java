@@ -1,5 +1,9 @@
 package com.example.wechat.view;
 
+import com.avos.avoscloud.AVUser;
+
+import java.util.List;
+
 /**
  * author:salmonzhang
  * Description:
@@ -7,4 +11,5 @@ package com.example.wechat.view;
  */
 
 public interface AddFriendView {
+    void omSearchResult(boolean isSuccess, List<AVUser> list, String message);
 }

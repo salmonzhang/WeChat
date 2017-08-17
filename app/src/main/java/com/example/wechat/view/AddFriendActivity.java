@@ -10,10 +10,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.avos.avoscloud.AVUser;
 import com.example.wechat.R;
 import com.example.wechat.Utils.ToastUtil;
 import com.example.wechat.presenter.AddFriendPresenter;
 import com.example.wechat.presenter.AddFriendPresenterImpl;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -112,5 +115,22 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
     public boolean onQueryTextChange(String newText) {
         ToastUtil.showToast(newText);
         return false;
+    }
+
+    @Override
+    public void omSearchResult(boolean isSuccess, List<AVUser> list, String message) {
+        /**
+         * 1：隐藏进度圈
+         * 2：如果成功，将list数据显示到RecyclerView上
+         * 3：如果失败，弹吐司
+         */
+        if (isSuccess) {//查询数据成功
+            if (list != null && list.size() >0) {
+                ToastUtil.showToast("查询成功"+list.toString());
+            }
+
+        } else {//查询数据失败
+            ToastUtil.showToast("查询失败"+message);
+        }
     }
 }

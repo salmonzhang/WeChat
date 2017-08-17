@@ -12,11 +12,13 @@ import android.widget.TextView;
 
 import com.example.wechat.R;
 import com.example.wechat.Utils.ToastUtil;
+import com.example.wechat.presenter.AddFriendPresenter;
+import com.example.wechat.presenter.AddFriendPresenterImpl;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddFriendActivity extends BaseActivity implements SearchView.OnQueryTextListener {
+public class AddFriendActivity extends BaseActivity implements SearchView.OnQueryTextListener ,AddFriendView {
 
     @BindView(R.id.toolBar)
     Toolbar mToolBar;
@@ -26,6 +28,7 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
     RecyclerView mRvAddFriend;
     @BindView(R.id.tv_add_friend)
     TextView mTvAddFriend;
+    private AddFriendPresenter mAddFriendPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +40,7 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
 
     private void init() {
         initToolBar();
+        mAddFriendPresenter = new AddFriendPresenterImpl(this);
     }
 
     //初始化ToolBar
@@ -94,7 +98,8 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
      */
     @Override
     public boolean onQueryTextSubmit(String query) {
-        ToastUtil.showToast(query);
+        //由P层去完成查询的操作
+        mAddFriendPresenter.search(query);
         return false;
     }
 

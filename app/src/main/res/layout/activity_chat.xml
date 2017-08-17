@@ -1,10 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<com.example.wechat.widget.KeyboardListenerLinearLayout
+    android:id="@+id/ll_root"
+    android:background="#e7e7e7"
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.wechat.view.ChatActivity">
+    android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+    <include layout="@layout/tool_bar"></include>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_chat"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp">
+        <android.support.v7.widget.RecyclerView
+            android:background="#e7e7e7"
+            android:id="@+id/rv_chat"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:layout_margin="5dp"
+            android:padding="5dp"
+            android:background="@drawable/msg_send_bg"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/et_msg"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"/>
+
+        <Button
+            android:textSize="18sp"
+            android:textColor="#ffffff"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/btn_send_selector"
+            android:layout_gravity="center_vertical"
+            android:id="@+id/btn_send"
+            android:text="发送"
+            android:layout_width="65dp"
+            android:layout_height="40dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/chat_voice"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/chat_icon"/>
+        <ImageView
+            android:id="@+id/iv_pic"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/chat_pic"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/chat_icon"/>
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/chat_video"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/chat_icon"/>
+        <ImageView
+            android:id="@+id/iv_camera"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/chat_camera"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/chat_icon"/>
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/chat_hongbao"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/chat_icon"/>
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/chat_face"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/chat_icon"/>
+
+        <ImageView
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/chat_add"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="@dimen/chat_icon"/>
+
+    </LinearLayout>
+
+</com.example.wechat.widget.KeyboardListenerLinearLayout>

@@ -1,6 +1,7 @@
 package com.example.wechat.view;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -23,7 +24,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AddFriendActivity extends BaseActivity implements SearchView.OnQueryTextListener ,AddFriendView {
+public class AddFriendActivity extends BaseActivity implements SearchView.OnQueryTextListener ,AddFriendView, AddFriendAdapter.OnAddFriendClickListener {
 
     @BindView(R.id.toolBar)
     Toolbar mToolBar;
@@ -145,6 +146,10 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
                 mRvAddFriend.setAdapter(friendAdapter);
                 mIvNodata.setVisibility(View.GONE);
                 mRvAddFriend.setVisibility(View.VISIBLE);
+
+                //给friendAdapter设置回调监听
+                friendAdapter.setOnAddFriendClickListener(this);
+
             } else {
                 ToastUtil.showToast("没有查询到符合条件的结果");
                 mIvNodata.setVisibility(View.VISIBLE);
@@ -156,5 +161,21 @@ public class AddFriendActivity extends BaseActivity implements SearchView.OnQuer
             mIvNodata.setVisibility(View.VISIBLE);
             mRvAddFriend.setVisibility(View.INVISIBLE);
         }
+    }
+
+    //P层返回的添加好友的结果
+    @Override
+    public void onAddResult(boolean isSuccess, String username, String message) {
+        if (isSuccess) {
+            Snackbar.make(mRvAddFriend, "添加"+username+"请求发送成功", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make(mRvAddFriend, "添加"+username+"请求发送失败", Snackbar.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onAddFriendClick(String username) {
+        //由P层去实现添加好友的功能
+        mAddFriendPresenter.AddFriendRequest(username,"请求原因");
     }
 }

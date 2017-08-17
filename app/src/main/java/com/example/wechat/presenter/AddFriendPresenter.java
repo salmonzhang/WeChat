@@ -8,4 +8,6 @@ package com.example.wechat.presenter;
 
 public interface AddFriendPresenter {
     void search(String keyword);
+
+    void AddFriendRequest(String username, String reason);
 }

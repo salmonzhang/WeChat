@@ -16,13 +16,18 @@ import android.widget.TextView;
 
 import com.example.wechat.R;
 import com.example.wechat.Utils.ToastUtil;
+import com.example.wechat.presenter.ChatPresenter;
+import com.example.wechat.presenter.ChatPresenterImpl;
 import com.example.wechat.widget.KeyboardListenerLinearLayout;
+import com.hyphenate.chat.EMMessage;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ChatActivity extends BaseActivity implements TextWatcher {
+public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView{
 
     @BindView(R.id.tv_title)
     TextView mTvTitle;
@@ -43,6 +48,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher {
     @BindView(R.id.ll_root)
     KeyboardListenerLinearLayout mLlRoot;
     private String mUsername;
+    private ChatPresenter mChatPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,6 +72,15 @@ public class ChatActivity extends BaseActivity implements TextWatcher {
 
         //初始化EditText
         initEditText();
+
+        //初始化历史消息
+        initHistoryMsg();
+
+        mChatPresenter = new ChatPresenterImpl(this);
+    }
+
+    private void initHistoryMsg() {
+        //从P层获取消息
     }
 
     private void initEditText() {
@@ -124,5 +139,11 @@ public class ChatActivity extends BaseActivity implements TextWatcher {
             case R.id.iv_camera:
                 break;
         }
+    }
+
+    //返回P层获取到的历史信息
+    @Override
+    public void onInitChat(List<EMMessage> emMessageList) {
+        ToastUtil.showToast("历史会话消息为："+emMessageList.size());
     }
 }

@@ -124,7 +124,8 @@ public class MainActivity extends BaseActivity implements Toolbar.OnMenuItemClic
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_add_friend:
-                ToastUtil.showToast("添加好友");
+                //跳转到AddFriendActivity
+                startActivity(AddFriendActivity.class, false);
                 break;
             case R.id.menu_share_friend:
                 ToastUtil.showToast("分享好友");

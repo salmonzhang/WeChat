@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <TextView
+        android:textColor="#9c9c9c"
+        android:layout_margin="5dp"
+        android:id="@+id/tv_time"
+        android:layout_gravity="center_horizontal"
+        android:text="23:23:23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginRight="5dp"
+            android:src="@mipmap/avatar_10"
+            android:layout_width="@dimen/chat_avatar"
+            android:layout_height="@dimen/chat_avatar"/>
+
+        <TextView
+            android:gravity="center_vertical"
+            android:background="@drawable/chatfrom_bg_normal"
+            android:maxWidth="@dimen/send_txt_max_width"
+            android:layout_marginTop="5dp"
+            android:layout_gravity="center_vertical"
+            android:text="你好，晚上一起吃饭。"
+            android:id="@+id/tv_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</LinearLayout>

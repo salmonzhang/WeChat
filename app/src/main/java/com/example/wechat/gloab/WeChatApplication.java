@@ -11,7 +11,9 @@ import com.avos.avoscloud.AVOSCloud;
 import com.example.wechat.Utils.ThreadFactory;
 import com.example.wechat.event.ContactUpdateEvent;
 import com.hyphenate.EMContactListener;
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.exceptions.HyphenateException;
 
@@ -45,6 +47,44 @@ public class WeChatApplication extends Application {
         initLeanCloud();
         //初始化环信好友变化监听
         initContactListener();
+        //初始化消息监听
+        initMessageListener();
+    }
+
+    private void initMessageListener() {
+        EMClient.getInstance().chatManager().addMessageListener(new EMMessageListener() {
+            public void onMessageReceived(List<EMMessage> messages) {
+                //收到消息
+                //使用EventBus将消息发送到ChatActivity
+                EMMessage message = messages.get(0);
+                EventBus.getDefault().post(message);
+            }
+
+            @Override
+            public void onCmdMessageReceived(List<EMMessage> messages) {
+                //收到透传消息
+            }
+
+            @Override
+            public void onMessageRead(List<EMMessage> messages) {
+                //收到已读回执
+            }
+
+            @Override
+            public void onMessageDelivered(List<EMMessage> message) {
+                //收到已送达回执
+            }
+            @Override
+            public void onMessageRecalled(List<EMMessage> messages) {
+                //消息被撤回
+            }
+
+            @Override
+            public void onMessageChanged(EMMessage message, Object change) {
+                //消息状态变动
+            }
+        });
+
     }
 
     private void initContactListener() {

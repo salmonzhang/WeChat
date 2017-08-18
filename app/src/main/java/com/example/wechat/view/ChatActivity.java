@@ -150,5 +150,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView{
         ChatAdapter chatAdapter = new ChatAdapter(emMessageList);
         mRvChat.setLayoutManager(new LinearLayoutManager(this));
         mRvChat.setAdapter(chatAdapter);
+        //让RecyclerView滚动到最后一条记录
+        mRvChat.scrollToPosition(emMessageList.size() - 1);
     }
 }

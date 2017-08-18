@@ -30,7 +30,7 @@ public class ChatPresenterImpl implements ChatPresenter {
         if (conversation != null) {
             //获取最近一次的聊天记录
             EMMessage lastMessage = conversation.getLastMessage();
-            ////获取当前msgId之前的PAGE_SIZE条
+            //获取当前msgId之前的PAGE_SIZE条
             List<EMMessage> emMessages = conversation.loadMoreMsgFromDB(lastMessage.getMsgId(), PAGE_SIZE - 1);
             //将最近的一次聊天记录，与前面的聊天记录一起放在mEMMessageList中
             mEMMessageList.addAll(emMessages);

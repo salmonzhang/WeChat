@@ -3,6 +3,7 @@ package com.example.wechat.view;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 
 import com.example.wechat.R;
 import com.example.wechat.Utils.ToastUtil;
+import com.example.wechat.adapter.ChatAdapter;
 import com.example.wechat.presenter.ChatPresenter;
 import com.example.wechat.presenter.ChatPresenterImpl;
 import com.example.wechat.widget.KeyboardListenerLinearLayout;
@@ -144,6 +146,9 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView{
     //返回P层获取到的历史信息
     @Override
     public void onInitChat(List<EMMessage> emMessageList) {
-        ToastUtil.showToast("历史会话消息为："+emMessageList.size());
+        //让返回的历史信息在RecyclerView上显示
+        ChatAdapter chatAdapter = new ChatAdapter(emMessageList);
+        mRvChat.setLayoutManager(new LinearLayoutManager(this));
+        mRvChat.setAdapter(chatAdapter);
     }
 }

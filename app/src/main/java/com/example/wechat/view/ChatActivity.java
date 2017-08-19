@@ -215,13 +215,16 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
     @Subscribe(threadMode = ThreadMode.MAIN)
     private void onMessageEvent(EMMessage message){
         /**
+         * 1：判断发送过来的消息是否是当前聊天用户发送过来的
          * 2：将消息添加到大集合中
          * 3：更新界面
          */
-        mChatPresenter.addMessage(message);
-        if (mChatAdapter != null) {
-            mChatAdapter.notifyDataSetChanged();
-            mRvChat.smoothScrollToPosition(mChatAdapter.getItemCount() - 1);
+        if (message.getFrom().equals(mUsername)) {
+            mChatPresenter.addMessage(message);
+            if (mChatAdapter != null) {
+                mChatAdapter.notifyDataSetChanged();
+                mRvChat.smoothScrollToPosition(mChatAdapter.getItemCount() - 1);
+            }
         }
     }
 

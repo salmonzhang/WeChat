@@ -19,6 +19,7 @@ public class ChatPresenterImpl implements ChatPresenter {
     public static final int PAGE_SIZE = 20;
     private List<EMMessage> mEMMessageList = new ArrayList<>();
     private ChatView mChatView;
+    private String username;
 
     public ChatPresenterImpl(ChatView chatView) {
         mChatView = chatView;
@@ -26,6 +27,8 @@ public class ChatPresenterImpl implements ChatPresenter {
 
     @Override
     public void initChat(String username) {
+        this.username = username;
+        mEMMessageList.clear();
         //从环信服务器获取与当前传入的username的聊天记录
         EMConversation conversation = EMClient.getInstance().chatManager().getConversation(username);
         if (conversation != null) {

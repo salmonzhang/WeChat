@@ -55,7 +55,7 @@ public class SplashActivity extends BaseActivity implements SplashView {
             //给闪屏界面设置动画
             ObjectAnimator animator = ObjectAnimator.ofFloat(mIvSplashLogo,"alpha",0.0f, 1.0f);
 
-            //给闪屏界面设置动画监听，2秒后跳转到主界面
+            //给闪屏界面设置动画监听，2秒后跳转到主界面（适配器设计模式）
             animator.addListener(new AnimatorAdapter(){
                 @Override
                 public void onAnimationEnd(Animator animation) {

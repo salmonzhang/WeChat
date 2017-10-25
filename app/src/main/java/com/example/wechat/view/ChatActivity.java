@@ -1,7 +1,16 @@
 package com.example.wechat.view;
 
+import android.Manifest;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
+import android.support.v4.content.PermissionChecker;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +36,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +46,8 @@ import butterknife.OnClick;
 
 public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView, SwipeRefreshLayout.OnRefreshListener {
 
+    private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1;
+    private static final int REQUEST_CAMERA = 1;
     @BindView(R.id.tv_title)
     TextView mTvTitle;
     @BindView(R.id.toolbar)
@@ -56,6 +69,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
     private String mUsername;
     private ChatPresenter mChatPresenter;
     private ChatAdapter mChatAdapter;
+    private File mFile;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,10 +94,10 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
         //初始化EditText
         initEditText();
 
+        mChatPresenter = new ChatPresenterImpl(this);
+
         //初始化历史消息
         initHistoryMsg();
-
-        mChatPresenter = new ChatPresenterImpl(this);
 
         //设置下拉刷新
         mSrlChat.setColorSchemeColors(getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.colorAccent));
@@ -93,8 +107,10 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
         EventBus.getDefault().register(this);
     }
 
+    //初始化历史聊天记录
     private void initHistoryMsg() {
         //从P层获取消息
+        mChatPresenter.initChat(mUsername);
     }
 
     private void initEditText() {
@@ -110,8 +126,8 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
     }
 
     private void initToolBar() {
-        mTvTitle.setText("");
-        mToolbar.setTitle("与" + mUsername + "聊天中");
+        mToolbar.setTitle("");
+        mTvTitle.setText("与" + mUsername + "聊天中");
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -153,7 +169,77 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
             case R.id.iv_pic:
                 break;
             case R.id.iv_camera:
+                //调用系统相机拍照
+                takePhoto();
                 break;
+        }
+    }
+
+    //使用系统相机拍照
+    private void takePhoto() {
+
+
+        //动态获取相机权限
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PermissionChecker.PERMISSION_GRANTED) {
+            //如果还未被授权，则动态申请
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},REQUEST_CAMERA);
+            return;
+        }
+
+        // 指定开启系统相机的Action
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+        mFile = new File(Environment.getExternalStorageDirectory(), new Date().getTime()+".jpg");
+
+        // 设置系统相机拍摄照片完成后图片文件的存放地址
+        intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(mFile));
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            Uri uri = FileProvider.getUriForFile(this, "com.example.wechat.fileprovider", mFile);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        } else {
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(mFile));
+        }
+
+        startActivityForResult(intent,CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+    }
+
+
+    /**
+     * 该方法是动态申请权限弹出的对话框被处理后的回调方法
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CAMERA) {
+            if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED) {
+                //被授权了
+                ToastUtil.showToast("获得拍照权限");
+                takePhoto();
+            } else {
+                //被拒绝了
+                ToastUtil.showToast("拒绝拍照权限");
+            }
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE ) {
+            if (resultCode == RESULT_OK) {
+                //照相完成
+                ToastUtil.showToast("照相完成");
+            } else {
+                //没有照相
+                ToastUtil.showToast("没有照相");
+            }
         }
     }
 
@@ -213,7 +299,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
 
     //定义一个EventBus处理方法
     @Subscribe(threadMode = ThreadMode.MAIN)
-    private void onMessageEvent(EMMessage message){
+    public void onMessageEvent(EMMessage message){
         /**
          * 1：判断发送过来的消息是否是当前聊天用户发送过来的
          * 2：将消息添加到大集合中
@@ -229,7 +315,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }

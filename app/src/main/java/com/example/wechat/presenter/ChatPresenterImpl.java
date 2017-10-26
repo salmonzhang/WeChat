@@ -6,6 +6,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -96,5 +97,22 @@ public class ChatPresenterImpl implements ChatPresenter {
     @Override
     public void addMessage(EMMessage message) {
         mEMMessageList.add(message);
+    }
+
+    //发送图片消息
+    @Override
+    public void sendImageMsg(File mFile, String username) {
+        /**
+         * 1:创建一条图片消息EMMessage
+         * 2：将创建的message显示到界面，即将消息添加到mEMMessageList集合中
+         * 3：让ChatAdapter更新界面
+         * 4：发送图片消息
+         */
+        //imagePath为图片本地路径，false为不发送原图（默认超过100k的图片会压缩后发给对方），需要发送原图传true
+        EMMessage message = EMMessage.createImageSendMessage(mFile.getAbsolutePath(), false, username);
+        mEMMessageList.add(message);
+        mChatView.onChatUpdate();
+        EMClient.getInstance().chatManager().sendMessage(message);
+
     }
 }

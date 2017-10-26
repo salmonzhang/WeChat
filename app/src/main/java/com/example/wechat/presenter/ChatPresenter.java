@@ -2,6 +2,8 @@ package com.example.wechat.presenter;
 
 import com.hyphenate.chat.EMMessage;
 
+import java.io.File;
+
 /**
  * author:salmonzhang
  * Description:
@@ -16,4 +18,7 @@ public interface ChatPresenter {
     void sendTextMsg(String msg, String username);
 
     void addMessage(EMMessage message);
+
+    //发送图片消息
+    void sendImageMsg(File mFile, String username);
 }

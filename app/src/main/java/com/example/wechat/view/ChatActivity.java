@@ -191,8 +191,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         mFile = new File(Environment.getExternalStorageDirectory(), new Date().getTime()+".jpg");
-
-        // 设置系统相机拍摄照片完成后图片文件的存放地址
+        //设置系统相机拍摄照片完成后图片文件的存放地址
         intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(mFile));
 
 
@@ -224,7 +223,7 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
                 takePhoto();
             } else {
                 //被拒绝了
-                ToastUtil.showToast("拒绝拍照权限");
+               ToastUtil.showToast("拒绝拍照权限");
             }
         }
     }
@@ -236,6 +235,12 @@ public class ChatActivity extends BaseActivity implements TextWatcher ,ChatView,
             if (resultCode == RESULT_OK) {
                 //照相完成
                 ToastUtil.showToast("照相完成");
+                //照相完成后，让P层去发送图片
+                if(mFile != null){
+                    //传入图片的地址和正在聊天的用户名
+                    mChatPresenter.sendImageMsg(mFile,mUsername);
+                }
+
             } else {
                 //没有照相
                 ToastUtil.showToast("没有照相");

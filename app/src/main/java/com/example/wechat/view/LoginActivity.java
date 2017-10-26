@@ -1,7 +1,11 @@
 package com.example.wechat.view;
 
+import android.Manifest;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.PermissionChecker;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +24,7 @@ import butterknife.ButterKnife;
 
 public class LoginActivity extends BaseActivity implements TextView.OnEditorActionListener, View.OnClickListener,LoginView {
 
+    private static final int REQUEST_STORAGE = 1;
     @BindView(R.id.et_login_username)
     EditText mEtLoginUsername;
     @BindView(R.id.til_login_username)
@@ -123,11 +128,28 @@ public class LoginActivity extends BaseActivity implements TextView.OnEditorActi
         }else{
             mTilLoginPwd.setErrorEnabled(false);
         }
+
+        //动态申请SDCard权限
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PermissionChecker.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE);
+            return;
+        }
+
         //显示一个Dialog，提醒用户正在登录
         showDialog("正在登录中......");
 
         //让P层去完成登录功能
         mLoginPresenter.login(username,pwd);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_STORAGE) {
+            if (grantResults[0] == PermissionChecker.PERMISSION_GRANTED) {
+                login();
+            }
+        }
     }
 
     //P层返回的登录结果
